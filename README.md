@@ -5,7 +5,7 @@
 ## 仓库与在线试玩
 
 - GitHub：https://github.com/Raingor/memory-match
-- GitHub Pages：https://raingor.github.io/memory-match/ （历史几何卡片版已上线，线上63项真实浏览器检查通过；本次人物改造尚未发布）
+- GitHub Pages：https://raingor.github.io/memory-match/ （19角色陪伴与人物卡面版已上线，线上111项人物检查和63项完整玩法回归通过；91项单测及严格构建通过）
 - main 推送自动执行规则测试、类型检查、生产构建与 Pages 发布。
 
 ## 开始
@@ -64,14 +64,14 @@ GAME_URL=http://127.0.0.1:4177/ RUN_LABEL=preview npm run test:browser
 - 验证同卡/第三张锁定、重开/切档取消旧回调、计时停止、玩法弹窗、键盘激活与焦点、结算、刷新保留三档最佳、损坏与禁用存储、reduced-motion。
 - `artifacts/dev-report.json` 与 `artifacts/preview-report.json` 保存实际报告；每套各 8 张截图，包括桌面初始/进行/结算、三档手机棋盘、手机结算与 360 宽。产物已忽略，不进入源码仓库。
 
-## 本地人物改造（2026-11-20，待浏览器错峰验收与发布）
+## 人物改造（2026-11-20，已上线验收）
 
 - `npm test`：4文件、**91 / 91通过**（保留原52条规则/计时/存储测试，新增39条人物/偏好校验/卡面保密测试）。
 - `npm run build`：严格TS检查及生产构建通过，生产目录包含19张webp。
 - `node --check scripts/characters-smoke.mjs` 与 `node --check scripts/smoke.mjs` 通过。
 - 主Agent人物专用脚本实际111项通过、errors=[]；原63项回归首轮在8对完成等待处超时，已如实保留记录。
 - 经授权定向调查，子Agent原63项回归及带事件诊断副本共6轮全部通过、errors=[]，包括CPU6倍限速与CPU12倍＋头像延迟700ms，未复现首轮失败，未找到证据支持图片解码或布局漏翻根因，不声称已修复产品bug。
-- 原scripts/smoke.mjs仅增加失败现场诊断（当前配对、卡片标签/图片解码状态、焦点、边界、截图），不重试输入、不盲等、不改断言；人物专用脚本未改。最终脚本由主Agent独立复跑，生产preview与线上人物版仍待验收。
+- 原scripts/smoke.mjs仅增加失败现场诊断（当前配对、卡片标签/图片解码状态、焦点、边界、截图），不重试输入、不盲等、不改断言；人物专用脚本未改。主Agent最终独立本地与线上均通过111项人物检查+63项玩法检查；`98c4f9d`已发布，Pages部署44734802853成功。
 - 新增独立验收脚本，检查19图加载、逐一选择、刷新、损坏/不可用存储、360布局、键盘Esc/焦点、12个人物卡面、背面不泄露与真实完成；截图写入 `artifacts/characters-*.png`。
 
 ```sh
@@ -81,4 +81,4 @@ GAME_URL=http://127.0.0.1:4177/ RUN_LABEL=preview node scripts/characters-smoke.
 GAME_URL=http://127.0.0.1:4177/ RUN_LABEL=characters-regression npm run test:browser
 ```
 
-首版不支持中途续局或跨设备成绩同步。Git、Pages更新与最终浏览器验收由主Agent统一执行；人物版此刻未提交、未发布。
+首版不支持中途续局或跨设备成绩同步。Git、Pages更新与最终浏览器验收由主Agent统一执行；人物版已提交、发布并完成线上验收，实际发布结果见progress.md。

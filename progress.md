@@ -49,5 +49,10 @@
 - README/task_plan已区分历史线上版与本地人物工作；本次未git/提交/推送/部署/写memory，未修改其他目录。
 - 主Agent授权仅调查上述旧回归失败后，直接原脚本复跑1轮、带真实pointer/focus事件诊断副本复跑5轮，共6轮63/63通过、errors=[]。覆盖CPU6倍限速及CPU12倍+头像请求延迟700ms，均未复现。报告/截图为artifacts/characters-debug-*、characters-cpu6-*、characters-repeat-{1,2,3}-*、characters-cold-images-*。
 - 未发现实际产品根因，未改产品代码；不能将未复现说成已修复。原scripts/smoke.mjs只增加catch失败现场，保留配对编号、可见标签、焦点、图片完成状态、布局边界与截图，不重试输入、不延长等待、不弱化63项覆盖；已通过人物脚本未修改。
-- 临时事件诊断脚本只位于被忽略的artifacts，不进入提交。最终再次实跑91单测与生产build通过，node --check原smoke通过。现在再次冻结全部目录写入，主Agent独立复跑最终原脚本；人物版生产/线上尚待主Agent验证与发布。
+- 临时事件诊断脚本只位于被忽略的artifacts，不进入提交。最终再次实跑91单测与生产build通过，node --check原smoke通过。子Agent冻结交回主Agent。
 
+## 人物版主Agent上线验收（2026-11-20）
+- 主Agent最终独立复跑人物111项、完整玩法63项均通过；首次超时仍按未复现记录，不宣称修复了无证据的产品bug。
+- 代码 `98c4f9d` 已推送；Pages工作流 https://github.com/Raingor/memory-match/actions/runs/44734802853 成功。
+- https://raingor.github.io/memory-match/ 新版线上111项人物检查+63项玩法检查全过，errors=[]。包括人物卡面12种身份、闭牌保密、19角色选择/保存、键盘/触控、三档真实通关与异常存储。
+- 91项单测、严格构建通过；本轮人物版已完成发布与线上验收，上文未发布为此前历史状态。
