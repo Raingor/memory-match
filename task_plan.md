@@ -17,6 +17,19 @@
 - [x] README / task_plan / progress 写入实际结果，节点回报主 Agent。
 - [ ] findings.md：子 Agent 环境禁止写 findings/报告文件（Write 被工具拒绝），发现项直接在交接消息中返回，未绕过限制。
 
+## 本地人物改造（历史上线之后的新工作）
+
+- [x] 只读源目录catalog，复制19张webp到自身public/characters-2d，无兄弟运行时依赖。
+- [x] 独立characters.ts/css、原生details/summary角色选择、19按钮/alt/pressed状态、Esc/选择收起返回焦点。
+- [x] 独立版本角色偏好key与损坏/非法id/异常存储默认。
+- [x] 卡面改为人物头像+名字，12对有12种独立人物；隐藏牌无头像/身份文本/身份类。
+- [x] 原52条规则/异步/存储测试保留，新39条人物测试；合计91条通过。
+- [x] TypeScript/生产构建、两套浏览器脚本语法检查通过。
+- [x] 新增scripts/characters-smoke.mjs，更新原smoke人物名称断言。
+- [x] 主Agent人物脚本111项通过；原63项首轮8对超时，授权定向复跑6轮全部通过（含CPU限速/头像延迟），未复现，不凭空宣称产品修复。
+- [x] 原smoke仅增加保留首个失败的配对/标签/焦点/图片/截图诊断，不改断言或增加等待；主Agent待独立复跑最终脚本。
+- [ ] 人物改造未提交/发布，不继承历史线上63项验收结论。
+
 ## 交接边界
 
 源码与本地验收已完成，未发现未解决阻塞。主 Agent 提供的 `.github/workflows/deploy.yml` 未由本 Agent 修改；Git 初始化、提交、推送、Pages 与最终独立验收由主 Agent 负责。

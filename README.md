@@ -1,11 +1,11 @@
 # 形状碰碰 · 记忆翻牌
 
-一款独立运行的中文记忆翻牌游戏。奶油纸面、钴蓝牌背和原创彩色几何图案，没有商业角色、远程素材、账号或后端。
+一款独立运行的中文记忆翻牌游戏。保留奶油纸面和钴蓝几何牌背，人物头像配对卡面搭配19位可选陪伴角色；没有远程素材请求、账号或后端。头像按本次要求从现有 xiaoxiaole 本地素材复制，不代表对这些角色名称或形象的原创或权利声明。
 
 ## 仓库与在线试玩
 
 - GitHub：https://github.com/Raingor/memory-match
-- GitHub Pages：https://raingor.github.io/memory-match/ （已上线，线上63项真实浏览器检查通过）
+- GitHub Pages：https://raingor.github.io/memory-match/ （历史几何卡片版已上线，线上63项真实浏览器检查通过；本次人物改造尚未发布）
 - main 推送自动执行规则测试、类型检查、生产构建与 Pages 发布。
 
 ## 开始
@@ -32,7 +32,7 @@ GAME_URL=http://127.0.0.1:4177/ RUN_LABEL=preview npm run test:browser
 
 ## 玩法
 
-- 轻松 6 对、专注 8 对、挑战 12 对，点击两张卡片寻找相同图案。
+- 轻松 6 对、专注 8 对、挑战 12 对，点击两张卡片寻找相同人物头像与名字。
 - 翻开第二张计 1 步。相同卡片留下，不同卡片在短暂展示后盖回。
 - 配对处理中禁止第三张输入，同一张不能自配；已配对卡片不可再次操作。
 - 首次合法翻牌开始计时，完成后停止。洗牌重开或切换难度会取消上一局的延迟回调和计时器。
@@ -41,17 +41,21 @@ GAME_URL=http://127.0.0.1:4177/ RUN_LABEL=preview npm run test:browser
 
 ## 本地记录
 
-仅使用 `puzzle-memory-v1`，结构为 `{ version: 1, best: { "6": { moves, seconds }, ... } }`。不读取其他游戏的记录，不保存中途棋盘或账号。损坏 JSON、未知版本、非法档位、非整数或负数字段会安全回退为空记录。存储访问异常不影响游玩，写入失败时页面会提示。浏览器清除站点数据后记录也会被删除。
+最佳成绩使用 `puzzle-memory-v1`，结构为 `{ version: 1, best: { "6": { moves, seconds }, ... } }`。不读取其他游戏的记录，不保存中途棋盘或账号。损坏 JSON、未知版本、非法档位、非整数或负数字段会安全回退为空记录。存储访问异常不影响游玩，写入失败时页面会提示。浏览器清除站点数据后记录也会被删除。
+
+陪伴角色单独使用 `puzzle-memory-character-v1`，结构 `{ version: 1, id: "classic" }`。19个角色全部可选；坏JSON、非法id、未知版本、存储读取失败均默认自嘲熊（Joke Bear）。选择后收起并返回入口焦点，Esc同样收起；保存失败不影响本次选择或配对游戏。切换陪伴角色不改变当前牌局；6/8/12对的卡面分别使用角色目录前6/8/12位，头像与名字共同辨认。
 
 ## 结构
 
 - `src/engine.ts`：纯状态与洗牌/翻牌/配对规则；可注入随机数，不依赖 DOM 或计时器。
 - `src/controller.ts`：单例计时、配对延迟、重开代际保护与完成回调；可注入时钟。
 - `src/storage.ts`：版本化记录校验、异常处理与成绩比较。
-- `src/main.ts` / `src/style.css` / `src/icons.ts`：语义按钮、键盘焦点、原生弹窗、响应式棋盘、原创 SVG 与 reduced-motion。
+- `src/main.ts` / `src/style.css` / `src/icons.ts`：语义按钮、键盘焦点、原生弹窗、响应式棋盘、几何牌背与 reduced-motion。
+- `src/characters.ts` / `src/characters.css`：19角色目录、独立角色偏好、原生折叠选择器与人物卡面；隐藏卡不生成身份名称、头像、alt或身份类。
+- `public/characters-2d/*.webp`：19张自包含本地头像，无兄弟目录运行时引用。
 - `scripts/smoke.mjs`：真实点击/键盘/触控验收；测试侧固定随机数，不暴露产品作弊入口，也不导入开发态 `/src` 模块。
 
-## 本次实际验收（2026-11-20）
+## 历史几何卡片版实际验收（2026-11-20）
 
 - `npm test`：3 个测试文件，**52 / 52 通过**。
 - `npm run build`：TypeScript 检查与 Vite 生产打包通过。
@@ -60,4 +64,21 @@ GAME_URL=http://127.0.0.1:4177/ RUN_LABEL=preview npm run test:browser
 - 验证同卡/第三张锁定、重开/切档取消旧回调、计时停止、玩法弹窗、键盘激活与焦点、结算、刷新保留三档最佳、损坏与禁用存储、reduced-motion。
 - `artifacts/dev-report.json` 与 `artifacts/preview-report.json` 保存实际报告；每套各 8 张截图，包括桌面初始/进行/结算、三档手机棋盘、手机结算与 360 宽。产物已忽略，不进入源码仓库。
 
-未发现阻塞问题。首版不支持中途续局或跨设备成绩同步。Git、远端仓库、GitHub Pages 与线上验收由主 Agent 统一执行，本文不将本地验收当成已部署。
+## 本地人物改造（2026-11-20，待浏览器错峰验收与发布）
+
+- `npm test`：4文件、**91 / 91通过**（保留原52条规则/计时/存储测试，新增39条人物/偏好校验/卡面保密测试）。
+- `npm run build`：严格TS检查及生产构建通过，生产目录包含19张webp。
+- `node --check scripts/characters-smoke.mjs` 与 `node --check scripts/smoke.mjs` 通过。
+- 主Agent人物专用脚本实际111项通过、errors=[]；原63项回归首轮在8对完成等待处超时，已如实保留记录。
+- 经授权定向调查，子Agent原63项回归及带事件诊断副本共6轮全部通过、errors=[]，包括CPU6倍限速与CPU12倍＋头像延迟700ms，未复现首轮失败，未找到证据支持图片解码或布局漏翻根因，不声称已修复产品bug。
+- 原scripts/smoke.mjs仅增加失败现场诊断（当前配对、卡片标签/图片解码状态、焦点、边界、截图），不重试输入、不盲等、不改断言；人物专用脚本未改。最终脚本由主Agent独立复跑，生产preview与线上人物版仍待验收。
+- 新增独立验收脚本，检查19图加载、逐一选择、刷新、损坏/不可用存储、360布局、键盘Esc/焦点、12个人物卡面、背面不泄露与真实完成；截图写入 `artifacts/characters-*.png`。
+
+```sh
+GAME_URL=http://127.0.0.1:5177/ RUN_LABEL=dev node scripts/characters-smoke.mjs
+GAME_URL=http://127.0.0.1:4177/ RUN_LABEL=preview node scripts/characters-smoke.mjs
+# 同时重新跑原有63项完整玩法回归
+GAME_URL=http://127.0.0.1:4177/ RUN_LABEL=characters-regression npm run test:browser
+```
+
+首版不支持中途续局或跨设备成绩同步。Git、Pages更新与最终浏览器验收由主Agent统一执行；人物版此刻未提交、未发布。

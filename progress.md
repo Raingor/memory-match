@@ -1,6 +1,6 @@
 # 实际进度 · 2026-11-20
 
-## 完成
+## 历史几何版完成
 
 1. 读取根计划与已验证中性配置；完成独立 package / TS / Vite 骨架。仅本目录写入。
 2. 独立 `npm install` 生成 package-lock，47 packages added，audit 0 vulnerabilities。
@@ -28,9 +28,26 @@
 
 未停止其他服务；本项目两项服务保留供主 Agent 独立验收。子 Agent 未执行 git/init/commit/push 或部署，未写 memory。主 Agent 加入的 workflow 未修改。
 
-## 主 Agent 独立验收与发布
+## 历史版本主 Agent 独立验收与发布
 - 独立实跑52单测、类型检查与构建、生产preview的63项浏览器检查，全部通过；手机12对截图经视觉核验。
 - 仓库：https://github.com/Raingor/memory-match ，代码提交 `b653bd6`。
 - 首次部署工作流 https://github.com/Raingor/memory-match/actions/runs/44714089958 成功。
 - 站点：https://raingor.github.io/memory-match/ ，HTTP200；`GAME_URL=https://raingor.github.io/memory-match/ RUN_LABEL=pages npm run test:browser` 63项通过，errors=[]。
 - 线上实测完成6/8/12对，手机触控完成12对；验证成绩持久化、存储故障、无页面错误与资源错误。报告为忽略目录中的 `artifacts/pages-report.json`。
+
+## 本地人物改造 · 2026-11-20（未发布）
+
+- 新要求：保留现有风格，加入xiaoxiaole的19位人物陪伴选择器，并把翻牌卡面由几何图案改成人物头像/名字。
+- 仅复制19张源webp到本项目public/characters-2d，合计682082字节；未复制PNG/full身图/Three，也无兄弟目录运行时引用。
+- 新增src/characters.ts、characters.css、characters.test.ts。原生details/summary提供19按钮、aria-pressed/名称/图片alt；Esc与选完均收起并返回summary焦点。
+- 角色偏好使用独立版本key puzzle-memory-character-v1，坏JSON/未知版本/非法id/读写异常安全降级。选择陪伴角色不改变当前配对。
+- 卡面前6/8/12位角色对应三档；未翻开卡面为空、无人物alt/名字/身份class。配对、锁定、重开/切档和计时控制器保持不变。
+- 实跑npm test：4文件91/91通过（原52+新39）；npm run build类型检查与生产构建通过，dist包含19张webp。
+- 实跑node --check scripts/characters-smoke.mjs与scripts/smoke.mjs均通过。原玩法smoke仅把固定几何名称断言改为真实人物名称，未删减验收项。
+- 新独立脚本scripts/characters-smoke.mjs覆盖19图/选择/刷新/异常存储/360布局/键盘/12种卡面/隐藏身份/真实完成。运行方式：GAME_URL=http://127.0.0.1:5177/ RUN_LABEL=dev node scripts/characters-smoke.mjs。
+- 初次交回按错峰安排未启动浏览器；随后主Agent人物专用脚本实跑111项通过、errors=[]，原63项回归首轮在complete(page,8)等待匹配处超时。历史上线报告不能作为人物版已验收证据。
+- README/task_plan已区分历史线上版与本地人物工作；本次未git/提交/推送/部署/写memory，未修改其他目录。
+- 主Agent授权仅调查上述旧回归失败后，直接原脚本复跑1轮、带真实pointer/focus事件诊断副本复跑5轮，共6轮63/63通过、errors=[]。覆盖CPU6倍限速及CPU12倍+头像请求延迟700ms，均未复现。报告/截图为artifacts/characters-debug-*、characters-cpu6-*、characters-repeat-{1,2,3}-*、characters-cold-images-*。
+- 未发现实际产品根因，未改产品代码；不能将未复现说成已修复。原scripts/smoke.mjs只增加catch失败现场，保留配对编号、可见标签、焦点、图片完成状态、布局边界与截图，不重试输入、不延长等待、不弱化63项覆盖；已通过人物脚本未修改。
+- 临时事件诊断脚本只位于被忽略的artifacts，不进入提交。最终再次实跑91单测与生产build通过，node --check原smoke通过。现在再次冻结全部目录写入，主Agent独立复跑最终原脚本；人物版生产/线上尚待主Agent验证与发布。
+

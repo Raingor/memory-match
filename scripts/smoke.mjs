@@ -13,6 +13,7 @@ let checks = 0;
 const check = (value, message) => { assert.ok(value, message); checks++; };
 const browser = await chromium.launch({ channel: 'chrome', headless: true });
 const contexts = [];
+let activePair = null;
 const key = 'puzzle-memory-v1';
 async function context(options = {}, init) {
   const ctx = await browser.newContext(options); contexts.push(ctx);
@@ -42,6 +43,7 @@ async function choose(page, level) {
 }
 async function complete(page, level, touch = false) {
   for (let i = 0; i < level; i++) {
+    activePair = { page, level, first: i, second: i + level, touch };
     await click(page, card(page, i), touch); await click(page, card(page, i + level), touch);
     await page.waitForFunction(id => document.querySelector(`[data-card="${id}"]`)?.disabled, i);
   }
@@ -60,14 +62,14 @@ try {
   check(await page.locator('#help').evaluate(el => el === document.activeElement), 'dialog restores focus');
   await card(page, 0).focus(); await page.keyboard.press('Enter'); await page.keyboard.press('Space');
   check(await page.locator('#moves').textContent() === '0', 'same card cannot self-pair via keyboard');
-  check(await card(page, 0).getAttribute('aria-label') === '第 1 张，日光圆环', 'keyboard reveals a meaningful shape name');
+  check(await card(page, 0).getAttribute('aria-label') === '第 1 张，Joke Bear', 'keyboard reveals a meaningful character name');
   const outline = await card(page, 0).evaluate(el => getComputedStyle(el).outlineWidth); check(outline === '3px', 'visible keyboard focus');
   await card(page, 1).click(); await card(page, 2).click({ force: true }); // Physical input while aria-disabled: do not let Playwright wait for unlock.
   check(await card(page, 2).getAttribute('aria-label') === '第 3 张，未翻开', 'third input blocked');
   await page.waitForTimeout(900); check(await page.locator('.is-flipped').count() === 0, 'mismatch turns back');
   await card(page, 0).click(); await card(page, 1).click(); await page.locator('#restart').click();
   await card(page, 3).click(); await page.waitForTimeout(900);
-  check(await card(page, 3).getAttribute('aria-label') === '第 4 张，薄荷方格', 'restart cancels old mismatch callback');
+  check(await card(page, 3).getAttribute('aria-label') === '第 4 张，乌萨奇', 'restart cancels old mismatch callback');
   check(await page.locator('#moves').textContent() === '0', 'restart resets moves');
   await card(page, 4).click(); await choose(page, 8); await page.waitForTimeout(900);
   check(await page.locator('.is-flipped').count() === 0, 'difficulty cancels old callback');
@@ -110,6 +112,31 @@ try {
   const report = { url, tag, checks, errors, screenshots, browser: 'isolated Google Chrome contexts', completedLevels: [6, 8, 12], mobileTouchCompletion: 12 };
   await writeFile(`${output}${tag}-report.json`, JSON.stringify(report, null, 2));
   console.log(JSON.stringify(report, null, 2));
+} catch (error) {
+  // Preserve the first failure; diagnostics must never retry inputs or relax gameplay assertions.
+  if (activePair && !activePair.page.isClosed()) {
+    try {
+      const { page, ...pair } = activePair;
+      const state = await page.evaluate(() => ({
+        focus: document.activeElement?.outerHTML,
+        moves: document.querySelector('#moves')?.textContent,
+        timer: document.querySelector('#timer')?.textContent,
+        hint: document.querySelector('#hint')?.textContent,
+        busy: document.querySelector('#board')?.getAttribute('aria-busy'),
+        cards: [...document.querySelectorAll('.card')].map(card => ({
+          id: card.dataset.card, label: card.getAttribute('aria-label'), classes: card.className,
+          disabled: card.disabled, ariaDisabled: card.getAttribute('aria-disabled'),
+          images: [...card.querySelectorAll('img')].map(img => ({ src: img.getAttribute('src'), complete: img.complete, width: img.naturalWidth })),
+          bounds: card.getBoundingClientRect().toJSON(),
+        })),
+      }));
+      const failure = { url, pair, error: String(error), state, errors };
+      await writeFile(`${output}${tag}-failure.json`, JSON.stringify(failure, null, 2));
+      await screenshot(page, 'failure');
+      console.error(JSON.stringify(failure, null, 2));
+    } catch (diagnosticError) { console.error('Could not capture failure state:', diagnosticError); }
+  }
+  throw error;
 } finally {
   for (const ctx of contexts) await ctx.close(); await browser.close();
 }
