@@ -5,7 +5,7 @@
 ## 仓库与在线试玩
 
 - GitHub：https://github.com/Raingor/memory-match
-- GitHub Pages：https://raingor.github.io/memory-match/ （首次发布与线上验收进行中）
+- GitHub Pages：https://raingor.github.io/memory-match/ （已上线，线上63项真实浏览器检查通过）
 - main 推送自动执行规则测试、类型检查、生产构建与 Pages 发布。
 
 ## 开始

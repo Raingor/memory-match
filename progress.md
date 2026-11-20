@@ -26,4 +26,11 @@
 - dev：`http://127.0.0.1:5177/`，Node PID 50339。
 - production preview：`http://127.0.0.1:4177/`，Node PID 50460。
 
-未停止其他服务；本项目两项服务保留供主 Agent 独立验收。未执行 git/init/commit/push 或部署，未写 memory。主 Agent 加入的 workflow 未修改。源码与记录交回后停止主动写入，等待明确返修。
+未停止其他服务；本项目两项服务保留供主 Agent 独立验收。子 Agent 未执行 git/init/commit/push 或部署，未写 memory。主 Agent 加入的 workflow 未修改。
+
+## 主 Agent 独立验收与发布
+- 独立实跑52单测、类型检查与构建、生产preview的63项浏览器检查，全部通过；手机12对截图经视觉核验。
+- 仓库：https://github.com/Raingor/memory-match ，代码提交 `b653bd6`。
+- 首次部署工作流 https://github.com/Raingor/memory-match/actions/runs/44714089958 成功。
+- 站点：https://raingor.github.io/memory-match/ ，HTTP200；`GAME_URL=https://raingor.github.io/memory-match/ RUN_LABEL=pages npm run test:browser` 63项通过，errors=[]。
+- 线上实测完成6/8/12对，手机触控完成12对；验证成绩持久化、存储故障、无页面错误与资源错误。报告为忽略目录中的 `artifacts/pages-report.json`。
