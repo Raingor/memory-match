@@ -56,3 +56,11 @@
 - 代码 `98c4f9d` 已推送；Pages工作流 https://github.com/Raingor/memory-match/actions/runs/44734802853 成功。
 - https://raingor.github.io/memory-match/ 新版线上111项人物检查+63项玩法检查全过，errors=[]。包括人物卡面12种身份、闭牌保密、19角色选择/保存、键盘/触控、三档真实通关与异常存储。
 - 91项单测、严格构建通过；本轮人物版已完成发布与线上验收，上文未发布为此前历史状态。
+
+## 2026-11-23 · iconfont 图标重采
+
+- 通过 opencli 访问 iconfont.cn 搜索采集页面 favicon 与界面图标，图标名称、ID、搜索词和落位见根目录 `../icons-source.md`。
+- 新增 `public/favicon.svg`，`index.html` 改用该文件；界面图标统一以 `currentColor` 渲染，favicon 使用本项目主题色圆角底。
+- 洗牌重开按钮改用 iconfont 重置图标，替换原手写 SVG。
+- `npm test`、`npm run build` 通过；浏览器冒烟 63 项通过，截图复核图标尺寸、对比度与语义正常。
+

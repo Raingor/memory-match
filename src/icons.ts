@@ -14,4 +14,16 @@ const paths = [
   '<path d="M38 66C3 66 0 20 12 10C39 12 44 35 38 66ZM43 66C39 32 50 17 71 13C82 40 66 64 43 66Z"/>',
 ];
 export function shape(symbol: number): string { return `<svg viewBox="0 0 80 80" aria-hidden="true" focusable="false">${paths[symbol]}</svg>`; }
-export const restartIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 10a8 8 0 1 1 1 7M4 4v6h6"/></svg>';
+
+// Restart icon collected from iconfont.cn through opencli on 2026-11-23.
+// Source ID and URL are listed in ../../icons-source.md.
+
+// Restart icon collected from iconfont.cn through opencli on 2026-11-23.
+// Source ID and URL are listed in ../../icons-source.md.
+
+// Restart icon collected from iconfont.cn through opencli on 2026-11-23.
+// Source ID and URL are listed in ../../icons-source.md.
+
+// Restart icon collected from iconfont.cn through opencli on 2026-11-23.
+// Source ID and URL are listed in ../../icons-source.md.
+export const restartIcon = '<svg viewBox="0 0 1024 1024" fill="currentColor" aria-hidden="true"><path d="M524.8 106.666667c-106.666667 0-209.066667 42.666667-285.866667 110.933333l-8.533333-68.266667c0-25.6-21.333333-42.666667-46.933333-38.4-25.6 0-42.666667 21.333333-38.4 46.933334l8.533333 115.2c4.266667 55.466667 51.2 98.133333 106.666667 98.133333h8.533333L384 362.666667c25.6 0 42.666667-21.333333 38.4-46.933334 0-25.6-21.333333-42.666667-46.933333-38.4l-85.333334 4.266667c64-55.466667 145.066667-89.6 230.4-89.6 187.733333 0 341.333333 153.6 341.333334 341.333333s-153.6 341.333333-341.333334 341.333334-341.333333-153.6-341.333333-341.333334c0-25.6-17.066667-42.666667-42.666667-42.666666s-42.666667 17.066667-42.666666 42.666666c0 234.666667 192 426.666667 426.666666 426.666667s426.666667-192 426.666667-426.666667c4.266667-234.666667-187.733333-426.666667-422.4-426.666666z"></path></svg>';

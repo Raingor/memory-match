@@ -82,3 +82,7 @@ GAME_URL=http://127.0.0.1:4177/ RUN_LABEL=characters-regression npm run test:bro
 ```
 
 首版不支持中途续局或跨设备成绩同步。Git、Pages更新与最终浏览器验收由主Agent统一执行；人物版已提交、发布并完成线上验收，实际发布结果见progress.md。
+
+## 图标来源
+
+页面 favicon 与界面图标于 2026-11-23 通过 opencli 从 [iconfont.cn](https://www.iconfont.cn/) 搜索采集；图标名称、ID、搜索词与落位见根目录 `../icons-source.md`。界面图标统一以 `currentColor` 渲染，favicon 使用本项目主题色。
